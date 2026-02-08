@@ -1,0 +1,22 @@
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Example Vector Database (e.g., 3 documents, 4 features each)
+vector_db = np.array([
+    [1, 1, 0, 0],
+    [0, 1, 1, 0],
+    [0, 0, 1, 1]
+])
+
+# Example Query Vector
+query_vector = np.array([[1, 0, 0, 0]])
+
+# 1. Compute cosine similarity between query and all DB vectors
+similarities = cosine_similarity(query_vector, vector_db)
+
+# 2. Rank results by similarity (descending)
+# Get indices of sorted similarities
+sorted_indices = np.argsort(similarities[0])[::-1]
+
+print("Similarities:", similarities[0])
+print("Sorted Vector Indices:", sorted_indices)
