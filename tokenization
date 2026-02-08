@@ -1,0 +1,108 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+#include <set>
+#include <algorithm>
+
+class BPETokenizer {
+    std::vector<std::pair<std::string, std::string>> merge_rules;
+    std::map<std::string, int> vocab;
+
+public:
+    void train(const std::vector<std::string>& corpus, int num_merges) {
+
+        std::vector<std::vector<std::string>> splitted_corpus;
+
+        for (const std::string& word : corpus) {
+            std::vector<std::string> chars;
+            for (char c : word) {
+                chars.push_back(std::string(1, c));
+            }
+            splitted_corpus.push_back(chars);
+        }
+
+        std::cout << "--- Starting BPE Training ---\n";
+
+        for (int i = 0; i < num_merges; ++i) {
+            std::map<std::pair<std::string, std::string>, int> pair_freqs;
+
+            for (const auto& word_tokens : splitted_corpus) {
+                for (size_t j = 0; j + 1 < word_tokens.size(); ++j) {
+                    pair_freqs[std::make_pair(word_tokens[j], word_tokens[j + 1])]++;
+                }
+            }
+
+            if (pair_freqs.empty()) break;
+
+            auto best_pair = std::max_element(
+                pair_freqs.begin(),
+                pair_freqs.end(),
+                [](const std::pair<std::pair<std::string, std::string>, int>& a,
+                   const std::pair<std::pair<std::string, std::string>, int>& b) {
+                    return a.second < b.second;
+                }
+            );
+
+            std::string first = best_pair->first.first;
+            std::string second = best_pair->first.second;
+            std::string replacement = first + second;
+
+            std::cout << "Merge " << i + 1
+                      << ": (" << first << ", " << second << ") -> "
+                      << replacement << " | Count: "
+                      << best_pair->second << "\n";
+
+            merge_rules.push_back(best_pair->first);
+
+            for (auto& word_tokens : splitted_corpus) {
+                std::vector<std::string> new_tokens;
+
+                for (size_t j = 0; j < word_tokens.size(); ++j) {
+                    if (j + 1 < word_tokens.size() &&
+                        word_tokens[j] == first &&
+                        word_tokens[j + 1] == second) {
+
+                        new_tokens.push_back(replacement);
+                        j++; // skip next token
+                    } else {
+                        new_tokens.push_back(word_tokens[j]);
+                    }
+                }
+
+                word_tokens = new_tokens;
+            }
+        }
+
+        int id = 0;
+        std::set<std::string> final_tokens;
+
+        for (const auto& word_tokens : splitted_corpus) {
+            for (const auto& token : word_tokens) {
+                final_tokens.insert(token);
+            }
+        }
+
+        for (const auto& token : final_tokens) {
+            vocab[token] = id++;
+        }
+    }
+
+    void display_vocab() {
+        std::cout << "\n--- Final Vocabulary ---\n";
+        for (std::map<std::string, int>::iterator it = vocab.begin();
+             it != vocab.end(); ++it) {
+            std::cout << it->first << " : " << it->second << "\n";
+        }
+    }
+};
+
+int main() {
+    std::vector<std::string> corpus = {"hug", "pug", "pun", "bun", "hugs"};
+
+    BPETokenizer tokenizer;
+    tokenizer.train(corpus, 3);
+    tokenizer.display_vocab();
+
+    return 0;
+}
