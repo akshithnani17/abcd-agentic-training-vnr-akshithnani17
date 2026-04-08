@@ -14,7 +14,7 @@
 5. Pro (utilized for its 2M token context window and multimodal capabilities).PDF Engine: PyMuPDF (fast, reliable text and table extraction).Environment: Python 3.10+, Docker. Architecture DiagramThe system follows a sequential and iterative flow to ensure quality control.
 
 
-6. How to Run LocallyClone the Repository:Bashgit clone https://github.com/your-username/ai-research-summarizer.git
+6. How to Run LocallyClone the Repository:Bashgit clone https://github.com/akshithnani17/AI-Research-Paper-.git
 cd ai-research-summarizer
 Set Up Environment:Bashpython -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
