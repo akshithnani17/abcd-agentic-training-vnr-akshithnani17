@@ -22,4 +22,12 @@ pip install -r requirements.txt
 Configure API Keys:Create a .env file and add your Google Gemini API Key:Code snippetGOOGLE_API_KEY=your_api_key_here
 Launch the Application:Bashpython main.py --path ./papers/sample_paper.pdf
 
-7. References and ResourcesLangGraph DocumentationGemini API - Long Context PromptingAttention Is All You Need (Sample paper used for testing).8. Recording(Insert Link to Loom/YouTube Demo Video here)9. ScreenshotsInput (PDF Upload)Agent Logs (Processing)Final Structured Summary![Upload UI]![Terminal Output]![Final Report]10. Alignment and FormattingThis project adheres to PEP 8 standards for Python code and uses Markdown for documentation to ensure cross-platform compatibility and readability.11. Problems Faced and SolutionsProblemSolutionPDF Tables: Raw text extraction turned tables into gibberish.Implemented Multimodal Analysis—the Reader agent now sends snapshots of complex tables to Gemini 1.5 Pro for visual interpretation.Token Limits: Very long papers caused "Map" agents to lose the "big picture."Implemented a Global State Object in LangGraph that stores the "Abstract" context, making it accessible to all agents regardless of which section they are currently summarizing.Hallucinated Limits: Agents sometimes invented limitations not in the text.Added a Verification Step where the Editor agent must cite a specific section from the "Reader's" raw notes to justify a "Critical Limitation."
+7. References and ResourcesLangGraph DocumentationGemini API - Long Context PromptingAttention Is All You Need (Sample paper used for testing).
+
+
+8. ScreenshotsInput (PDF Upload)Agent Logs (Processing)Final Structured Summary![Upload UI]![Terminal Output]![Final Report]
+   
+
+10. Alignment and FormattingThis project adheres to PEP 8 standards for Python code and uses Markdown for documentation to ensure cross-platform compatibility and readability.
+
+11. Problems Faced and SolutionsProblemSolutionPDF Tables: Raw text extraction turned tables into gibberish.Implemented Multimodal Analysis—the Reader agent now sends snapshots of complex tables to Gemini 1.5 Pro for visual interpretation.Token Limits: Very long papers caused "Map" agents to lose the "big picture."Implemented a Global State Object in LangGraph that stores the "Abstract" context, making it accessible to all agents regardless of which section they are currently summarizing.Hallucinated Limits: Agents sometimes invented limitations not in the text.Added a Verification Step where the Editor agent must cite a specific section from the "Reader's" raw notes to justify a "Critical Limitation."
