@@ -26,7 +26,8 @@ Launch the Application:Bashpython main.py --path ./papers/sample_paper.pdf
 
 
 8. ScreenshotsInput (PDF Upload)Agent Logs (Processing)Final Structured Summary![Upload UI]![Terminal Output]![Final Report]
-   
+
+ ![1a](assets/)
 
 10. Alignment and FormattingThis project adheres to PEP 8 standards for Python code and uses Markdown for documentation to ensure cross-platform compatibility and readability.
 
